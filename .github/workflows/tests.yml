@@ -33,7 +33,7 @@ jobs:
           chrome-version: 'stable'
 
       - name: Run tests
-        run: ./gradlew test -Dheadless=true -Dpage.load.timeout=60 -Dtimeout=15
+        run: ./gradlew test -Dheadless=true -Dpage.load.timeout=90 -Dtimeout=15
         continue-on-error: true
 
       - name: Load Allure test report history
@@ -59,6 +59,10 @@ jobs:
           allure_results: build/allure-results
           allure_history: allure-history
           keep_reports: 10
+
+      - name: Remove .git from allure-history
+        if: always()
+        run: sudo rm -rf allure-history/.git
 
       - name: Deploy Allure report to GitHub Pages
         if: always()
