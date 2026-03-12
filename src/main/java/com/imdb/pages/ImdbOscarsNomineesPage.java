@@ -40,14 +40,12 @@ public class ImdbOscarsNomineesPage extends BasePage {
     private void openOscarsPage() {
         open(OSCARS_URL);
         cookieConsent.acceptIfPresent();
-        waitForPageLoad();
     }
 
     @Step("Click Nominees link")
     private void clickNominees() {
         log.info("Clicking Nominees link");
         nomineesLink.shouldBe(visible).click();
-        waitForPageLoad();
     }
 
     @Step("Select decade for year {year}")
@@ -65,7 +63,6 @@ public class ImdbOscarsNomineesPage extends BasePage {
         SelenideElement yearLink = $x(String.format(YEAR_XPATH, year));
         scrollToElement(yearLink.shouldBe(visible));
         yearLink.click();
-        waitForPageLoad();
     }
 
     @Step("Get winner in category: {categoryTestId}")

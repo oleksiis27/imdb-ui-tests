@@ -34,13 +34,11 @@ public class ImdbHomePage extends BasePage {
         log.info("Opening IMDb home page");
         open(IMDB_URL);
         cookieConsent.acceptIfPresent();
-        waitForPageLoad();
         return this;
     }
 
     @Step("Verify IMDb home page is loaded")
     public boolean isLoaded() {
-        waitForPageLoad();
         boolean logoVisible = logo.isDisplayed();
         boolean searchVisible = searchBar.isDisplayed();
         log.info("IMDb home page loaded — logo: {}, search: {}", logoVisible, searchVisible);

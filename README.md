@@ -10,69 +10,67 @@ UI test automation framework for [IMDb](https://www.imdb.com/) built with Java, 
 | Selenide | UI automation framework |
 | Gradle (Kotlin DSL) | Build tool |
 | TestNG | Test runner |
+| Spring Boot | Dependency injection, test configuration |
 | Allure Report | Test reporting with steps, screenshots, attachments |
-| Lombok | Boilerplate reduction (@Slf4j, @Getter) |
+| Lombok | Boilerplate reduction (@Slf4j, @RequiredArgsConstructor) |
 | Owner | Configuration management via interfaces |
 | AssertJ | Fluent assertions and soft assertions |
-| SLF4J + Logback | Logging (console + file) |
-| DataFaker | Test data generation |
+| SLF4J + Logback | Logging |
 
 ## Project Structure
 
 ```
 src/
 ├── main/java/com/imdb/
+│   ├── TestingApplication.java            # Spring Boot entry point
 │   ├── config/
-│   │   └── AppConfig.java              # Owner config: base URL, browser, timeout
+│   │   └── AppConfig.java                 # Owner config: base URL, browser, timeout
 │   ├── pages/
-│   │   ├── BasePage.java               # Common methods: waitForPageLoad, scrollTo
-│   │   ├── GoogleSearchPage.java       # Google search page
-│   │   ├── GoogleResultsPage.java      # Google search results
-│   │   ├── ImdbHomePage.java           # IMDb home — search, navigation, logo
-│   │   ├── ImdbSearchResultsPage.java  # IMDb search results page
-│   │   ├── ImdbMoviePage.java          # Movie page — title, rating, year, genres
-│   │   ├── ImdbOscarsPage.java         # Oscars main page
-│   │   └── ImdbOscarsNomineesPage.java # Oscars nominees — categories, winners
+│   │   ├── BasePage.java                  # Common methods: waitForPageLoad, scrollTo
+│   │   ├── GooglePage.java                # Google search + results
+│   │   ├── ImdbHomePage.java              # IMDb home — search, navigation, logo
+│   │   ├── ImdbSearchResultsPage.java     # IMDb search results page
+│   │   ├── ImdbMoviePage.java             # Movie page — title, rating
+│   │   └── ImdbOscarsNomineesPage.java    # Oscars nominees — categories, winners
 │   ├── components/
-│   │   ├── NavigationBar.java          # IMDb nav bar (reusable)
-│   │   ├── SearchComponent.java        # Search bar with autocomplete (reusable)
-│   │   └── CookieConsent.java          # Cookie popup handler
+│   │   ├── NavigationBar.java             # IMDb nav bar (reusable)
+│   │   ├── SearchComponent.java           # Search bar with autocomplete (reusable)
+│   │   └── CookieConsent.java             # Cookie/CAPTCHA popup handler
+│   ├── steps/
+│   │   ├── GoogleSearchSteps.java         # Google search step methods
+│   │   ├── SearchSteps.java               # IMDb search & autocomplete steps
+│   │   ├── OscarsSteps.java               # Oscars verification steps
+│   │   └── NavigationSteps.java           # Shared navigation steps (logo, home page)
 │   ├── helpers/
-│   │   ├── BrowserHelper.java          # Scroll, switch tab, screenshot
-│   │   └── WaitHelper.java             # Custom explicit waits
+│   │   └── BrowserHelper.java             # Scroll, switch tab
 │   └── listeners/
-│       ├── TestListener.java           # TestNG listener: logging on start/pass/fail/skip
-│       └── AllureListener.java         # Screenshot + page URL on failure
+│       └── TestListener.java              # TestNG listener: logging on start/pass/fail/skip
 ├── main/resources/
-│   ├── app.properties                  # Configuration properties
-│   └── logback.xml                     # Logging config: console + rolling file
-└── test/java/com/imdb/tests/
-    ├── BaseTest.java                   # Browser setup, Allure Selenide listener
-    ├── GoogleSearchTest.java           # Google → IMDb navigation flow
-    ├── OscarsWinnerTest.java           # Oscars winner validation (data-driven)
-    ├── AutocompleteSearchTest.java     # Autocomplete movie search
-    └── ImdbAdditionalTests.java        # Home page smoke, movie page content, logo navigation
+│   ├── app.properties                     # Configuration properties
+│   └── logback.xml                        # Logging config
+└── test/
+    ├── java/com/imdb/tests/
+    │   ├── BaseTest.java                  # Browser setup, Allure listener, screenshot on failure
+    │   ├── GoogleSearchTest.java          # Google → IMDb navigation flow
+    │   ├── OscarsWinnerTest.java          # Oscars winner validation (data-driven)
+    │   └── AutocompleteSearchTest.java    # Autocomplete movie search
+    └── resources/testdata/
+        └── oscars-winners.json            # Test data for Oscars data-driven tests
 ```
 
 ## Test Cases
 
 ### 1. Google Search Flow (`GoogleSearchTest`)
 - Navigate to IMDb through Google search
-- Verify IMDb appears in top Google results
+- Verify IMDb appears in top 3 Google results
 
 ### 2. Oscars Winner Validation (`OscarsWinnerTest`)
-- Verify Titanic won Best Cinematography in 1998
-- Data-driven test for multiple Oscar categories (Best Picture, Best Director, Best Actor, etc.)
+- Smoke: verify a single known Oscar winner (Best Cinematography 1998)
+- Data-driven test for multiple Oscar categories across years (Best Picture, Best Director, Best Actor, etc.)
 
 ### 3. Autocomplete Search (`AutocompleteSearchTest`)
-- Autocomplete suggests "The Shawshank Redemption" and rating > 9.0
-- Partial search "Incep" returns relevant suggestions including "Inception"
+- Autocomplete suggests "The Shawshank Redemption" with rating > 9.0
 - Full name search returns correct results
-
-### 4. Additional Tests (`ImdbAdditionalTests`)
-- Home page smoke test (logo, search bar, title)
-- Movie page displays all essential information (soft assertions)
-- IMDb logo navigates back to home from any page
 
 ## Prerequisites
 
@@ -92,9 +90,6 @@ src/
 ./gradlew test -Dheadless=true
 ```
 
-### Run smoke tests only
-Tests tagged with `smoke` group run as part of the "Smoke Tests" suite defined in `testng.xml`.
-
 ### Configuration
 
 Edit `src/main/resources/app.properties` or pass system properties:
@@ -112,7 +107,8 @@ Edit `src/main/resources/app.properties` or pass system properties:
 
 ### Generate locally
 ```bash
-./gradlew allureServe
+allure generate build/allure-results -o build/allure-report --clean
+allure open build/allure-report
 ```
 
 ### CI/CD
@@ -121,11 +117,14 @@ Allure report is automatically generated and deployed to GitHub Pages on every p
 ## Key Design Decisions
 
 - **Page Object Model** with reusable components (SearchComponent, NavigationBar, CookieConsent)
-- **Allure `@Step` annotations** on all page object methods for detailed reporting
+- **Step layer** for reusable test steps with verification methods (GoogleSearchSteps, SearchSteps, OscarsSteps, NavigationSteps)
+- **Spring Boot DI** for wiring pages, components, and steps
+- **Allure `@Step` annotations** on all step and page methods for detailed reporting
 - **`@Slf4j` logging** on every action for debugging and traceability
-- **Selenide best practices**: `$()` selectors, `shouldBe`/`shouldHave` conditions, no `Thread.sleep()`
+- **CSS selectors** preferred over XPath; selectors extracted to fields/constants
 - **Soft assertions** (AssertJ) for tests verifying multiple fields
-- **Data-driven tests** via TestNG `@DataProvider` for Oscars categories
+- **Data-driven tests** via TestNG `@DataProvider` with JSON test data
 - **Cookie consent** handled gracefully — does not fail if banner is absent
-- **Automatic screenshots** on test failure via AllureListener
-- **TestNG groups** (`smoke`, `regression`) for selective test execution
+- **CAPTCHA detection** on Google — skips test instead of false failure
+- **Automatic screenshots** on test failure attached to Allure report
+- **PageLoadStrategy.EAGER** for faster page loads on CI

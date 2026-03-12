@@ -37,7 +37,6 @@ public class GooglePage extends BasePage {
         open(GOOGLE_URL);
         cookieConsent.acceptIfPresent();
         checkForCaptcha();
-        waitForPageLoad();
         return this;
     }
 
