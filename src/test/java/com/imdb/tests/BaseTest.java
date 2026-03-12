@@ -53,6 +53,8 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests {
         options.addArguments("--disable-blink-features=AutomationControlled");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
+        options.addArguments("--disable-gpu");
+        options.addArguments("--remote-allow-origins=*");
         Configuration.browserCapabilities = options;
 
         log.info("Browser session started: {} | headless: {} | timeout: {}s",

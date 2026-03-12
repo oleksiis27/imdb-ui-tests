@@ -63,6 +63,8 @@ tasks.test {
         suiteXmlFiles = listOf(file("testng.xml"))
     }
     systemProperty("headless", System.getProperty("headless", "false"))
+    systemProperty("page.load.timeout", System.getProperty("page.load.timeout", "30"))
+    systemProperty("timeout", System.getProperty("timeout", "10"))
     testLogging {
         events("passed", "skipped", "failed")
         showStandardStreams = true
@@ -74,6 +76,8 @@ tasks.register<Test>("singleTest") {
         suiteXmlFiles = listOf(file("testng-single.xml"))
     }
     systemProperty("headless", System.getProperty("headless", "false"))
+    systemProperty("page.load.timeout", System.getProperty("page.load.timeout", "30"))
+    systemProperty("timeout", System.getProperty("timeout", "10"))
     testLogging {
         events("passed", "skipped", "failed")
         showStandardStreams = true
