@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Single Test" parallel="methods" thread-count="1">
+    <test name="Debug">
+        <classes>
+            <class name="com.imdb.tests.OscarsWinnerTest">
+                <methods>
+                    <include name="debugDataTestIds"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

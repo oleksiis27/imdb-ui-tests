@@ -1,0 +1,22 @@
+[
+  {
+    "year": 2004,
+    "winners": {
+      "BestPicture": "The Lord of the Rings: The Return of the King",
+      "BestDirector": "Peter Jackson",
+      "BestCinematography": "Master and Commander: The Far Side of the World",
+      "BestActressinaLeadingRole": "Charlize Theron",
+      "BestActorinaLeadingRole": "Sean Penn"
+    }
+  },
+  {
+    "year": 1994,
+    "winners": {
+      "BestPicture": "Schindler's List",
+      "BestDirector": "Steven Spielberg",
+      "BestCinematography": "Schindler's List",
+      "BestActressinaLeadingRole": "Holly Hunter",
+      "BestActorinaLeadingRole": "Tom Hanks"
+    }
+  }
+]

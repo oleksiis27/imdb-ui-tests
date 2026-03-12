@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="IMDb UI Tests" parallel="methods" thread-count="1">
+    <listeners>
+        <listener class-name="com.imdb.listeners.TestListener"/>
+    </listeners>
+
+    <test name="All Tests">
+        <classes>
+            <class name="com.imdb.tests.AutocompleteSearchTest"/>
+            <class name="com.imdb.tests.GoogleSearchTest"/>
+            <class name="com.imdb.tests.OscarsWinnerTest"/>
+        </classes>
+    </test>
+</suite>
