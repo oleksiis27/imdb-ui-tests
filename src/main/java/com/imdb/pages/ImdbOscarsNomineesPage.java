@@ -2,6 +2,7 @@ package com.imdb.pages;
 
 import com.codeborne.selenide.SelenideElement;
 import com.imdb.components.CookieConsent;
+import com.imdb.config.AppConfig;
 import io.qameta.allure.Step;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import static com.codeborne.selenide.Selenide.*;
 @RequiredArgsConstructor
 public class ImdbOscarsNomineesPage extends BasePage {
 
-    private static final String OSCARS_URL = "https://www.imdb.com/oscars/";
+    private static final String OSCARS_URL = AppConfig.getInstance().baseUrl() + "/oscars/";
     private static final String OSCARS_EVENT_ID = "ev0000003";
     private static final String DECADE_XPATH = "//*[contains(text(),'%s')]";
     private static final String YEAR_XPATH = "//a[contains(@href, '/event/" + OSCARS_EVENT_ID + "/%d/')]";

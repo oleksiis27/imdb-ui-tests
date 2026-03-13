@@ -11,6 +11,10 @@ public interface AppConfig extends Config {
     @DefaultValue("https://www.imdb.com")
     String baseUrl();
 
+    @Key("google.url")
+    @DefaultValue("https://www.google.com")
+    String googleUrl();
+
     @Key("browser")
     @DefaultValue("chrome")
     String browser();

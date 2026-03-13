@@ -23,18 +23,14 @@ public class SearchComponent {
     @Step("Type query: {text}")
     public SearchComponent typeQuery(String text) {
         log.info("Typing search query: {}", text);
-        searchInput.shouldBe(visible).click();
-        searchInput.clear();
-        searchInput.sendKeys(text);
+        searchInput.shouldBe(visible).setValue(text);
         return this;
     }
 
     @Step("Submit search: {text}")
     public void submitSearch(String text) {
         log.info("Submitting search for: {}", text);
-        searchInput.shouldBe(visible).click();
-        searchInput.clear();
-        searchInput.setValue(text).pressEnter();
+        searchInput.shouldBe(visible).setValue(text).pressEnter();
     }
 
     @Step("Wait for autocomplete suggestions to appear")

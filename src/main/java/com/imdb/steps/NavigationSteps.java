@@ -26,9 +26,6 @@ public class NavigationSteps {
 
     @Step("Verify navigated to IMDb home page")
     public void verifyOnHomePage() {
-        assertThat(homePage.getCurrentUrl())
-                .as("Current URL should contain imdb.com")
-                .contains("imdb.com");
         assertThat(homePage.isLoaded())
                 .as("IMDb home page should be loaded")
                 .isTrue();

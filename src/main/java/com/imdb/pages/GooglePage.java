@@ -3,6 +3,7 @@ package com.imdb.pages;
 import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import com.imdb.components.CookieConsent;
+import com.imdb.config.AppConfig;
 import io.qameta.allure.Step;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,7 @@ import static com.codeborne.selenide.Selenide.*;
 @RequiredArgsConstructor
 public class GooglePage extends BasePage {
 
-    private static final String GOOGLE_URL = "https://www.google.com";
+    private static final String GOOGLE_URL = AppConfig.getInstance().googleUrl();
 
     private final SelenideElement searchInput = $("textarea[name='q']");
     private final SelenideElement captchaForm = $("#captcha-form");
@@ -43,7 +44,6 @@ public class GooglePage extends BasePage {
     @Step("Search for: {query}")
     public void search(String query) {
         log.info("Searching Google for: {}", query);
-        sleep(1000);
         searchInput.shouldBe(visible).setValue(query).pressEnter();
     }
 

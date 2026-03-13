@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 import com.imdb.components.CookieConsent;
 import com.imdb.components.NavigationBar;
 import com.imdb.components.SearchComponent;
+import com.imdb.config.AppConfig;
 import io.qameta.allure.Step;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ import static com.codeborne.selenide.Selenide.open;
 @RequiredArgsConstructor
 public class ImdbHomePage extends BasePage {
 
-    private static final String IMDB_URL = "https://www.imdb.com";
+    private static final String IMDB_URL = AppConfig.getInstance().baseUrl();
 
     private final SelenideElement logo = $("a[aria-label='Home']");
     private final SelenideElement searchBar = $("input[name='q']");
