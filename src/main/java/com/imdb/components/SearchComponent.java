@@ -4,11 +4,10 @@ import com.codeborne.selenide.ElementsCollection;
 import com.codeborne.selenide.SelenideElement;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
-
-import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
 import org.springframework.stereotype.Component;
 
-import static com.codeborne.selenide.Condition.*;
+import static com.codeborne.selenide.CollectionCondition.sizeGreaterThan;
+import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 

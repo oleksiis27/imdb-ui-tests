@@ -28,8 +28,8 @@ val assertjVersion = "3.27.3"
 dependencies {
     // Spring Boot
     implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.springframework:spring-test")
-    implementation("org.springframework.boot:spring-boot-test")
+    testImplementation("org.springframework:spring-test")
+    testImplementation("org.springframework.boot:spring-boot-test")
 
     // Selenide
     implementation("com.codeborne:selenide:$selenideVersion")
@@ -71,18 +71,6 @@ tasks.test {
     }
 }
 
-tasks.register<Test>("singleTest") {
-    useTestNG {
-        suiteXmlFiles = listOf(file("testng-single.xml"))
-    }
-    systemProperty("headless", System.getProperty("headless", "false"))
-    systemProperty("page.load.timeout", System.getProperty("page.load.timeout", "30"))
-    systemProperty("timeout", System.getProperty("timeout", "10"))
-    testLogging {
-        events("passed", "skipped", "failed")
-        showStandardStreams = true
-    }
-}
 
 allure {
     version.set(allureVersion)

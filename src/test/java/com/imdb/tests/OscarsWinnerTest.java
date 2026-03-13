@@ -33,15 +33,18 @@ public class OscarsWinnerTest extends BaseTest {
     @DataProvider(name = "oscarsWinners")
     public Object[][] oscarsWinners() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
-        InputStream is = getClass().getClassLoader().getResourceAsStream("testdata/oscars-winners.json");
-        List<Map<String, Object>> data = mapper.readValue(is, new TypeReference<>() {});
-
-        return data.stream()
-                .map(entry -> new Object[]{
-                        entry.get("year"),
-                        entry.get("winners")
-                })
-                .toArray(Object[][]::new);
+        try (InputStream is = getClass().getClassLoader().getResourceAsStream("testdata/oscars-winners.json")) {
+            if (is == null) {
+                throw new IOException("Test data file not found: testdata/oscars-winners.json");
+            }
+            List<Map<String, Object>> data = mapper.readValue(is, new TypeReference<>() {});
+            return data.stream()
+                    .map(entry -> new Object[]{
+                            entry.get("year"),
+                            entry.get("winners")
+                    })
+                    .toArray(Object[][]::new);
+        }
     }
 
     @Test(description = "Smoke: verify a single known Oscar winner")

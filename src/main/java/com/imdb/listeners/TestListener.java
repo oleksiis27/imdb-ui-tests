@@ -19,8 +19,9 @@ public class TestListener implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
-        log.error("FAILED: {} - {}", result.getMethod().getMethodName(),
-                result.getThrowable().getMessage());
+        Throwable throwable = result.getThrowable();
+        String message = throwable != null ? throwable.getMessage() : "unknown error";
+        log.error("FAILED: {} - {}", result.getMethod().getMethodName(), message);
     }
 
     @Override

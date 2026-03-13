@@ -3,7 +3,6 @@ package com.imdb.helpers;
 import io.qameta.allure.Step;
 import lombok.extern.slf4j.Slf4j;
 
-
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 @Slf4j
