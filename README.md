@@ -42,7 +42,7 @@ src/
 │   │   ├── OscarsSteps.java               # Oscars verification steps
 │   │   └── NavigationSteps.java           # Shared navigation steps (logo, home page)
 │   ├── helpers/
-│   │   └── BrowserHelper.java             # Scroll, switch tab
+│   │   └── BrowserHelper.java             # Browser utility (scroll to top)
 │   └── listeners/
 │       └── TestListener.java              # TestNG listener: logging on start/pass/fail/skip
 ├── main/resources/

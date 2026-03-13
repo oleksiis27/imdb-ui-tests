@@ -26,34 +26,19 @@ val ownerVersion = "1.0.12"
 val assertjVersion = "3.27.3"
 
 dependencies {
-    // Spring Boot
     implementation("org.springframework.boot:spring-boot-starter")
     testImplementation("org.springframework:spring-test")
     testImplementation("org.springframework.boot:spring-boot-test")
-
-    // Selenide
     implementation("com.codeborne:selenide:$selenideVersion")
-
-    // TestNG
     implementation("org.testng:testng:$testngVersion")
-
-    // Allure
     implementation("io.qameta.allure:allure-testng:$allureVersion")
     implementation("io.qameta.allure:allure-selenide:$allureVersion")
-
-    // Lombok
     compileOnly("org.projectlombok:lombok:$lombokVersion")
     annotationProcessor("org.projectlombok:lombok:$lombokVersion")
     testCompileOnly("org.projectlombok:lombok:$lombokVersion")
     testAnnotationProcessor("org.projectlombok:lombok:$lombokVersion")
-
-    // Owner (configuration)
     implementation("org.aeonbits.owner:owner:$ownerVersion")
-
-    // Jackson (JSON test data)
     testImplementation("com.fasterxml.jackson.core:jackson-databind")
-
-    // AssertJ
     implementation("org.assertj:assertj-core:$assertjVersion")
 
 }
@@ -80,7 +65,6 @@ allure {
     }
 }
 
-// Disable Spring Boot fat jar (this is a test project, not a deployable app)
 tasks.named<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
     enabled = false
 }

@@ -2,11 +2,8 @@ package com.imdb.pages;
 
 import com.codeborne.selenide.SelenideElement;
 import com.imdb.components.CookieConsent;
-import com.imdb.components.NavigationBar;
-import com.imdb.components.SearchComponent;
 import com.imdb.config.AppConfig;
 import io.qameta.allure.Step;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -21,13 +18,8 @@ public class ImdbHomePage extends BasePage {
 
     private static final String IMDB_URL = AppConfig.getInstance().baseUrl();
 
-    private final SelenideElement logo = $("a[aria-label='Home']");
     private final SelenideElement searchBar = $("input[name='q']");
 
-    @Getter
-    private final SearchComponent searchComponent;
-    @Getter
-    private final NavigationBar navigationBar;
     private final CookieConsent cookieConsent;
 
     @Step("Open IMDb home page")
@@ -40,9 +32,9 @@ public class ImdbHomePage extends BasePage {
 
     @Step("Verify IMDb home page is loaded")
     public boolean isLoaded() {
-        boolean logoVisible = logo.isDisplayed();
         boolean searchVisible = searchBar.isDisplayed();
-        log.info("IMDb home page loaded — logo: {}, search: {}", logoVisible, searchVisible);
-        return logoVisible || searchVisible || getCurrentUrl().contains("imdb.com");
+        boolean urlMatch = getCurrentUrl().contains("imdb.com");
+        log.info("IMDb home page loaded — search: {}, url: {}", searchVisible, urlMatch);
+        return searchVisible || urlMatch;
     }
 }

@@ -18,6 +18,7 @@ public class ImdbOscarsNomineesPage extends BasePage {
     private static final String DECADE_XPATH = "//*[contains(text(),'%s')]";
     private static final String YEAR_XPATH = "//a[contains(@href, '/event/" + OSCARS_EVENT_ID + "/%d/')]";
     private static final String CATEGORY_SELECTOR = "section[data-testid='%s']";
+    private static final String WINNER_LABEL = "WINNER";
 
     private final SelenideElement nomineesLink = $("a[href*='" + OSCARS_EVENT_ID + "']");
 
@@ -80,7 +81,7 @@ public class ImdbOscarsNomineesPage extends BasePage {
     private String extractWinnerFromSection(String sectionText) {
         String[] lines = sectionText.split("\n");
         for (int i = 0; i < lines.length; i++) {
-            if (lines[i].trim().equals("WINNER") && i + 1 < lines.length) {
+            if (lines[i].trim().equals(WINNER_LABEL) && i + 1 < lines.length) {
                 return lines[i + 1].trim();
             }
         }
