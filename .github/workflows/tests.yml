@@ -63,7 +63,7 @@ jobs:
         if: always()
         run: |
           LATEST=$(ls -d allure-history/[0-9]* | sort -n | tail -1 | xargs basename)
-          echo "<html><head><meta http-equiv='refresh' content='0; url=${LATEST}/index.html'></head></html>" > allure-history/index.html
+          echo "<html><head><meta http-equiv='refresh' content='0; url=${LATEST}/index.html'></head></html>" | sudo tee allure-history/index.html > /dev/null
 
       - name: Remove .git from allure-history
         if: always()
