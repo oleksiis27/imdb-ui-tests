@@ -59,6 +59,12 @@ jobs:
           allure_history: allure-history
           keep_reports: 10
 
+      - name: Create redirect to latest report
+        if: always()
+        run: |
+          LATEST=$(ls -d allure-history/[0-9]* | sort -n | tail -1 | xargs basename)
+          echo "<html><head><meta http-equiv='refresh' content='0; url=${LATEST}/index.html'></head></html>" > allure-history/index.html
+
       - name: Remove .git from allure-history
         if: always()
         run: sudo rm -rf allure-history/.git
