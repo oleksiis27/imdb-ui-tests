@@ -28,6 +28,9 @@ public class GooglePage extends BasePage {
     private final SelenideElement captchaForm = $("#captcha-form");
     private final SelenideElement captchaFormAlt = $("form#captcha-form");
     private final SelenideElement recaptcha = $("div.g-recaptcha");
+    private final SelenideElement recaptchaIframe = $("iframe[src*='recaptcha']");
+    private final SelenideElement unusualTraffic = $("div#recaptcha");
+    private final SelenideElement searchDiv = $("#search");
     private final ElementsCollection searchResults = $$("#search a[href][data-ved], #search a[href][ping], #rso a[href]");
 
     private final CookieConsent cookieConsent;
@@ -49,7 +52,7 @@ public class GooglePage extends BasePage {
 
     @Step("Click search result containing URL: {urlPart}")
     public void clickResultByUrl(String urlPart) {
-        checkForCaptcha();
+        checkForSearchResults();
         log.info("Looking for search result with URL containing: {}", urlPart);
         searchResults.shouldHave(sizeGreaterThan(0));
         SelenideElement result = searchResults.stream()
@@ -65,7 +68,7 @@ public class GooglePage extends BasePage {
 
     @Step("Get all result URLs")
     public List<String> getResultUrls() {
-        checkForCaptcha();
+        checkForSearchResults();
         searchResults.shouldHave(sizeGreaterThan(0));
         List<String> urls = searchResults.stream()
                 .map(el -> el.getAttribute("href"))
@@ -88,10 +91,20 @@ public class GooglePage extends BasePage {
     private void checkForCaptcha() {
         boolean hasCaptcha = captchaForm.is(exist)
                 || captchaFormAlt.is(exist)
-                || recaptcha.is(exist);
+                || recaptcha.is(exist)
+                || recaptchaIframe.is(exist)
+                || unusualTraffic.is(exist);
         if (hasCaptcha) {
             log.warn("Google CAPTCHA detected — skipping test");
             throw new SkipException("Google CAPTCHA detected. Test skipped to avoid false failure.");
+        }
+    }
+
+    private void checkForSearchResults() {
+        checkForCaptcha();
+        if (!searchDiv.is(exist)) {
+            log.warn("Google search results not found — possible block, skipping test");
+            throw new SkipException("Google search results not found. Test skipped to avoid false failure.");
         }
     }
 }

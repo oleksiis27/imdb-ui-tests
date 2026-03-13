@@ -18,6 +18,11 @@ public class NavigationSteps {
     private final ImdbHomePage homePage;
     private final NavigationBar navigationBar;
 
+    @Step("Open IMDb home page")
+    public void openHomePage() {
+        homePage.openPage();
+    }
+
     @Step("Navigate to home page via IMDb logo")
     public void clickLogo() {
         BrowserHelper.scrollToTop();

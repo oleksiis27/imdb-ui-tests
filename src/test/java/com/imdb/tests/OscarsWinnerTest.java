@@ -48,6 +48,8 @@ public class OscarsWinnerTest extends BaseTest {
     @Severity(CRITICAL)
     @Story("Single category winner smoke")
     public void testSingleCategoryWinner() {
+        navigationSteps.openHomePage();
+        oscarsSteps.navigateToOscarsPage();
         oscarsSteps.navigateToOscarsYear(YEAR);
         oscarsSteps.verifyWinner(CATEGORY, EXPECTED_WINNER);
         navigationSteps.clickLogo();
@@ -59,6 +61,8 @@ public class OscarsWinnerTest extends BaseTest {
     @Severity(NORMAL)
     @Story("Oscars winners by year")
     public void testOscarWinners(int year, Map<String, String> winners) {
+        navigationSteps.openHomePage();
+        oscarsSteps.navigateToOscarsPage();
         oscarsSteps.navigateToOscarsYear(year);
         oscarsSteps.verifyWinners(year, winners);
     }

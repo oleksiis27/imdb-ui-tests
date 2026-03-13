@@ -1,5 +1,6 @@
 package com.imdb.steps;
 
+import com.imdb.components.NavigationBar;
 import com.imdb.pages.ImdbOscarsNomineesPage;
 import io.qameta.allure.Step;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class OscarsSteps {
 
     private final ImdbOscarsNomineesPage nomineesPage;
+    private final NavigationBar navigationBar;
+
+    @Step("Navigate to Oscars page via menu")
+    public void navigateToOscarsPage() {
+        navigationBar.navigateToOscars();
+    }
 
     @Step("Navigate to Oscars nominees for year {year}")
     public void navigateToOscarsYear(int year) {

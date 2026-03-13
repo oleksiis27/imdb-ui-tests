@@ -1,8 +1,6 @@
 package com.imdb.pages;
 
 import com.codeborne.selenide.SelenideElement;
-import com.imdb.components.CookieConsent;
-import com.imdb.config.AppConfig;
 import io.qameta.allure.Step;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +14,6 @@ import static com.codeborne.selenide.Selenide.*;
 @RequiredArgsConstructor
 public class ImdbOscarsNomineesPage extends BasePage {
 
-    private static final String OSCARS_URL = AppConfig.getInstance().baseUrl() + "/oscars/";
     private static final String OSCARS_EVENT_ID = "ev0000003";
     private static final String DECADE_XPATH = "//*[contains(text(),'%s')]";
     private static final String YEAR_XPATH = "//a[contains(@href, '/event/" + OSCARS_EVENT_ID + "/%d/')]";
@@ -24,23 +21,14 @@ public class ImdbOscarsNomineesPage extends BasePage {
 
     private final SelenideElement nomineesLink = $("a[href*='" + OSCARS_EVENT_ID + "']");
 
-    private final CookieConsent cookieConsent;
-
     @Step("Navigate to Oscars nominees for year {year}")
     public ImdbOscarsNomineesPage navigateToYear(int year) {
         log.info("Navigating to Oscars nominees for year: {}", year);
-        openOscarsPage();
         clickNominees();
         selectDecade(year);
         selectYear(year);
         log.info("Navigated to Oscars {} nominees page", year);
         return this;
-    }
-
-    @Step("Open Oscars page")
-    private void openOscarsPage() {
-        open(OSCARS_URL);
-        cookieConsent.acceptIfPresent();
     }
 
     @Step("Click Nominees link")
