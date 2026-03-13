@@ -11,6 +11,7 @@ import io.qameta.allure.selenide.AllureSelenide;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
@@ -55,6 +56,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-gpu");
         options.addArguments("--remote-allow-origins=*");
+        options.setPageLoadStrategy(PageLoadStrategy.EAGER);
         Configuration.browserCapabilities = options;
 
         log.info("Browser session started: {} | headless: {} | timeout: {}s",
