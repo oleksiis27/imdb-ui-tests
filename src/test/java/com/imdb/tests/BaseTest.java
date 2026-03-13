@@ -51,6 +51,7 @@ public abstract class BaseTest extends AbstractTestNGSpringContextTests {
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("excludeSwitches", java.util.List.of("enable-automation"));
         options.addArguments("--disable-blink-features=AutomationControlled");
+        options.addArguments("--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--remote-allow-origins=*");

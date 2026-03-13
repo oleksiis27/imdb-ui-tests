@@ -65,6 +65,7 @@ public class GooglePage extends BasePage {
 
     @Step("Get all result URLs")
     public List<String> getResultUrls() {
+        checkForCaptcha();
         searchResults.shouldHave(sizeGreaterThan(0));
         List<String> urls = searchResults.stream()
                 .map(el -> el.getAttribute("href"))
